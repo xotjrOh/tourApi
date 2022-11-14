@@ -22,10 +22,10 @@ public class ViewedCity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", updatable=false)
     private User user;
     @ManyToOne
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "city_id", updatable=false)
     private City city;
 
     @CreationTimestamp

@@ -1,5 +1,6 @@
 package com.interpark.tour.api.tour.model;
 
+import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.user.model.User;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -22,10 +23,10 @@ public class Tour {
 
     @ManyToOne
     @JoinColumn(name = "start_city")
-    private String departures;
+    private City departures;
     @ManyToOne
     @JoinColumn(name = "arrive_city")
-    private String arrivals;
+    private City arrivals;
 
     private LocalDateTime start_date;
     private LocalDateTime end_date;
