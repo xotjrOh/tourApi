@@ -1,0 +1,34 @@
+package com.interpark.tour.api.lookup.model;
+
+import com.interpark.tour.api.city.model.City;
+import com.interpark.tour.api.user.model.User;
+import com.sun.istack.NotNull;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class ViewedCity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
+    @CreationTimestamp
+    private LocalDateTime recent_viewed;
+
+}

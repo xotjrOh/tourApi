@@ -1,6 +1,8 @@
-package com.interpark.tour.api.tour.model;
+package com.interpark.tour.api.user.model;
 
-import com.interpark.tour.api.user.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.interpark.tour.api.lookup.model.ViewedCity;
+import com.interpark.tour.api.tour.model.Tour;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,6 +10,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,24 +19,23 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Tour {
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "start_city")
-    private String departures;
-    @ManyToOne
-    @JoinColumn(name = "arrive_city")
-    private String arrivals;
+    @NotNull
+    @Column(updatable=false)
+    private String name;
 
-    private LocalDateTime start_date;
-    private LocalDateTime end_date;
+    @OneToOne(mappedBy = "user")
+//    @JsonIgnore
+    private Tour tour;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+
+    @OneToMany(mappedBy = "user")
+    private List<ViewedCity> viewedCities = new ArrayList<>();
 
     private String reg_date_f;
 
