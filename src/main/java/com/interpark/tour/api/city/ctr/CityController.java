@@ -1,8 +1,5 @@
 package com.interpark.tour.api.city.ctr;
 
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-
 import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.city.repo.CityRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +13,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@Slf4j
 @RequestMapping("/api/v1/cities")
+@Slf4j
 @RequiredArgsConstructor
 public class CityController {
 
@@ -30,11 +27,11 @@ public class CityController {
     @GetMapping
     public ResponseEntity<List<City>> cityAll(){
 
-        List<City> city = cityRepository.findAll();
+        List<City> cities = cityRepository.findAll();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(city);
+                .body(cities);
     }
 
     /**
@@ -103,7 +100,7 @@ public class CityController {
                 .body(city);
     }
 
-    @GetMapping
+    @GetMapping("/interest")
     public ResponseEntity<List<City>> cityInterest(){
 
         // 관련 로직
