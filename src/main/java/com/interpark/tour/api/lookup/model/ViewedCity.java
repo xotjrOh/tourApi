@@ -13,7 +13,6 @@ import java.time.format.DateTimeFormatter;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class ViewedCity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +27,4 @@ public class ViewedCity {
 
     @CreationTimestamp
     private LocalDateTime recent_viewed;
-
 }

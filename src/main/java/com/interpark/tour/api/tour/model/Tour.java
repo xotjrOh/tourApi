@@ -29,7 +29,7 @@ public class Tour {
     private LocalDateTime start_date;
     private LocalDateTime end_date;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -43,5 +43,13 @@ public class Tour {
         LocalDateTime now = LocalDateTime.now();
         String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));
         this.reg_date_f = formatedNow;
+    }
+
+    public Tour(City departures, City arrivals, LocalDateTime start_date, LocalDateTime end_date, User user) {
+        this.departures = departures;
+        this.arrivals = arrivals;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.user = user;
     }
 }

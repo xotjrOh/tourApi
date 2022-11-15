@@ -27,10 +27,8 @@ public class User {
     @Column(updatable=false)
     private String name;
 
-    @OneToOne(mappedBy = "user")
-//    @JsonIgnore
-    private Tour tour;
-
+    @OneToMany(mappedBy = "user")
+    private List<Tour> tours = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<ViewedCity> viewedCities = new ArrayList<>();
@@ -45,5 +43,9 @@ public class User {
         LocalDateTime now = LocalDateTime.now();
         String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));
         this.reg_date_f = formatedNow;
+    }
+
+    public User(String name) {
+        this.name = name;
     }
 }
