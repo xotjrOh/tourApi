@@ -19,11 +19,13 @@ class CityRepositoryTest {
     @Autowired
     CityRepository cityRepository;
 
+    City cityIns;
+
     @BeforeEach
     void cleanup(){
         cityRepository.deleteAll();
         // given
-        cityRepository.save(new City("서울"));
+        cityIns = cityRepository.save(new City("서울"));
         cityRepository.save(new City("도쿄"));
     }
 
@@ -33,7 +35,7 @@ class CityRepositoryTest {
         // when
         Optional<City> city = cityRepository.findByName("서울");
         // then
-        System.out.println(city.get());
+        assertThat(city.get().getId()).isEqualTo(cityIns.getId());
     }
 
     @Test
