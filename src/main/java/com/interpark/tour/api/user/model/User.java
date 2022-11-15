@@ -26,10 +26,10 @@ public class User {
     @Column(updatable=false)
     private String name;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Tour> tours = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<ViewedCity> viewedCities = new ArrayList<>();
 
     @CreationTimestamp

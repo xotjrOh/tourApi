@@ -26,12 +26,12 @@ public class City {
     @Column(updatable=false)
     private String name;
 
-    @OneToMany(mappedBy = "departures")
+    @OneToMany(mappedBy = "departures", fetch = FetchType.LAZY)
     private List<Tour> startCities = new ArrayList<>();
-    @OneToMany(mappedBy = "arrivals")
+    @OneToMany(mappedBy = "arrivals", fetch = FetchType.LAZY)
     private List<Tour> arriveCities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "city")
+    @OneToMany(mappedBy = "city", fetch = FetchType.LAZY)
     private List<ViewedCity> viewedCities = new ArrayList<>();
 
     @CreationTimestamp

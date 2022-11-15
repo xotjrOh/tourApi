@@ -1,16 +1,14 @@
 package com.interpark.tour.api.city.ctr;
 
 import com.interpark.tour.api.city.model.City;
-import com.interpark.tour.api.city.repo.CityRepository;
+import com.interpark.tour.api.city.svc.CityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/cities")
@@ -18,7 +16,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class CityController {
 
-    private final CityRepository cityRepository;
+    private final CityService cityService;
 
     /**
      * City 전체 목록 조회
@@ -27,7 +25,7 @@ public class CityController {
     @GetMapping
     public ResponseEntity<List<City>> cityAll(){
 
-        List<City> cities = cityRepository.findAll();
+        List<City> cities = cityService.cityAll();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -42,7 +40,7 @@ public class CityController {
     @GetMapping("/{cityId}")
     public ResponseEntity<City> cityById(@PathVariable Long cityId){
 
-        City city = cityRepository.findById(cityId).orElseThrow(() -> new NoSuchElementException(cityId + "에 해당하는 도시가 없습니다"));
+        City city = cityService.cityById(cityId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -57,7 +55,7 @@ public class CityController {
     @PostMapping
     public ResponseEntity<City> cityCreate(@RequestBody String name){
 
-        City city = cityRepository.save(new City(name));
+        City city = cityService.cityCreate(name);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -73,13 +71,11 @@ public class CityController {
     @PatchMapping("/{cityId}")
     public ResponseEntity<City> cityUpdate(@PathVariable Long cityId, @RequestBody String name){
 
-        City city = cityRepository.findById(cityId).orElseThrow(() -> new NoSuchElementException(cityId + "에 해당하는 도시가 없습니다"));
-        city.setName(name);
-        City updatedCity = cityRepository.save(city);
+        City city = cityService.cityUpdate(cityId,name);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(updatedCity);
+                .body(city);
     }
 
     /**
@@ -88,35 +84,28 @@ public class CityController {
      * @return 삭제된 City 정보
      */
     @DeleteMapping("/{cityId}")
-    public ResponseEntity<City> cityDelete(@PathVariable Long cityId){
+    public ResponseEntity<Boolean> cityDelete(@PathVariable Long cityId){
 
-        City city = cityRepository.findById(cityId).orElseThrow(() -> new NoSuchElementException(cityId + "에 해당하는 도시가 없습니다"));
-        // 단, 해당 도시가 지정된 여행이 없을 경우만 삭제 가능
-
-        cityRepository.delete(city);
+        boolean res = cityService.cityDelete(cityId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(city);
+                .body(res);
     }
 
-    @GetMapping("/interest")
-    public ResponseEntity<List<City>> cityInterest(){
+    /**
+     * 특정 City 10개 조회
+     * @param
+     * @return 관심있을만한 City 10개 조회 (더 많을 수 있음)
+     */
+    @GetMapping("/list")
+    public ResponseEntity<List<City>> cityList(){
 
-        // 관련 로직
-//        사용자별 도시 목록 조회 API
-//        기본적으로 중복 없이 상위 10개 도시만 노출 (Pagination 없음)
-//        단, 여행 중인 도시는 중복이 허용되며 노출 개수와 무관
-//        도시 노출 순서 (위에서 아래 순서대로 노출)
-//        여행 중인 도시 : 여행 시작일이 빠른 것부터
-//        여행이 예정된 도시 : 여행 시작일이 가까운 것부터
-//        하루 이내에 등록된 도시 : 가장 최근에 등록한 것부터
-//        최근 일주일 이내에 한 번 이상 조회된 도시 : 가장 최근에 조회한 것부터
-//        위의 조건에 해당하지 않는 모든 도시 : 무작위
+        List<City> cities = cityService.cityList();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(Collections.emptyList());
+                .body(cities);
     }
 
 }
