@@ -2,6 +2,7 @@ package com.interpark.tour.api.city.repo;
 
 import com.interpark.tour.api.city.model.City;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,5 +15,6 @@ public interface CityRepository extends JpaRepository<City,Long> {
     Optional<City> findById(Long id);
     Optional<City> findByName(String name);
 
-    List<City> findAllByRegDateAfterOrderByRegDateDesc(LocalDateTime regDate);
+    @Query(value = "SELECT * FROM city WHERE datediff(regDate, :nowDate) > -2 order by regDate desc", nativeQuery = true)
+    List<City> findAllByRegDateAfterOrderByRegDateDesc(LocalDateTime nowDate);
 }

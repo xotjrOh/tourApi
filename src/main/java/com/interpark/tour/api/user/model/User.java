@@ -1,15 +1,15 @@
 package com.interpark.tour.api.user.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.interpark.tour.api.lookup.model.ViewedCity;
 import com.interpark.tour.api.tour.model.Tour;
 import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,17 +33,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<ViewedCity> viewedCities = new ArrayList<>();
 
-    private String regDate_f;
-
     @CreationTimestamp
     private LocalDateTime regDate;
-
-    @PrePersist
-    public void createdAt(){
-        LocalDateTime now = LocalDateTime.now();
-        String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));
-        this.regDate_f = formatedNow;
-    }
 
     public User(String name) {
         this.name = name;

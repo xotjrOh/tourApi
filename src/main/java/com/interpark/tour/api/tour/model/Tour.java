@@ -2,13 +2,13 @@ package com.interpark.tour.api.tour.model;
 
 import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.user.model.User;
-import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Data
@@ -33,17 +33,8 @@ public class Tour {
     @JoinColumn(name = "userId")
     private User user;
 
-    private String regDate_f;
-
     @CreationTimestamp
     private LocalDateTime regDate;
-
-    @PrePersist
-    public void createdAt(){
-        LocalDateTime now = LocalDateTime.now();
-        String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));
-        this.regDate_f = formatedNow;
-    }
 
     public Tour(City departures, City arrivals, LocalDateTime startDate, LocalDateTime endDate, User user) {
         this.departures = departures;
