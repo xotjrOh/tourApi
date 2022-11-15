@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,10 +40,7 @@ class CityRepositoryTest {
     @Test
     @DisplayName("findAllByRegDateIsAfter")
     void findAllByRegDateIsAfter(){
-        //when
-        LocalDateTime date = LocalDateTime.now();
-
-        List<City> cities = cityRepository.findAllByRegDateAfterOrderByRegDateDesc(date);
+        List<City> cities = cityRepository.findAllByRegDateAfterOrderByRegDateDesc();
         //then
         assertThat(cities.size()).isEqualTo(2);
     }
