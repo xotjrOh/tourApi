@@ -2,16 +2,16 @@ package com.interpark.tour.api.tour.model;
 
 import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.user.model.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tour {

@@ -3,9 +3,7 @@ package com.interpark.tour.api.user.model;
 import com.interpark.tour.api.lookup.model.ViewedCity;
 import com.interpark.tour.api.tour.model.Tour;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -14,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {

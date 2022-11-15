@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,6 +25,15 @@ class CityRepositoryTest {
         // given
         cityRepository.save(new City("서울"));
         cityRepository.save(new City("도쿄"));
+    }
+
+    @Test
+    @DisplayName("findByName")
+    void findByName(){
+        // when
+        Optional<City> city = cityRepository.findByName("서울");
+        // then
+        System.out.println(city.get());
     }
 
     @Test

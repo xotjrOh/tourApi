@@ -3,8 +3,10 @@ package com.interpark.tour.api.city.model;
 import com.interpark.tour.api.lookup.model.ViewedCity;
 import com.interpark.tour.api.tour.model.Tour;
 import com.sun.istack.NotNull;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -13,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @NoArgsConstructor
 public class City {
     @Id
