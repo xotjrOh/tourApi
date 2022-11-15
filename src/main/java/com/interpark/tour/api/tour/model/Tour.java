@@ -11,11 +11,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -13,11 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,5 +42,9 @@ public class City {
         LocalDateTime now = LocalDateTime.now();
         String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));
         this.reg_date_f = formatedNow;
+    }
+
+    public City(String name) {
+        this.name = name;
     }
 }
