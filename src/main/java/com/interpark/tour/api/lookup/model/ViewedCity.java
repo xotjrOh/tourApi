@@ -19,12 +19,12 @@ public class ViewedCity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", updatable=false)
+    @JoinColumn(name = "userId", updatable=false)
     private User user;
     @ManyToOne
-    @JoinColumn(name = "city_id", updatable=false)
+    @JoinColumn(name = "cityId", updatable=false)
     private City city;
 
     @CreationTimestamp
-    private LocalDateTime recent_viewed;
+    private LocalDateTime recentViewed;
 }

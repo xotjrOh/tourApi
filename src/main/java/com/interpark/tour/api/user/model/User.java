@@ -33,16 +33,16 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<ViewedCity> viewedCities = new ArrayList<>();
 
-    private String reg_date_f;
+    private String regDate_f;
 
     @CreationTimestamp
-    private LocalDateTime reg_date;
+    private LocalDateTime regDate;
 
     @PrePersist
     public void createdAt(){
         LocalDateTime now = LocalDateTime.now();
         String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));
-        this.reg_date_f = formatedNow;
+        this.regDate_f = formatedNow;
     }
 
     public User(String name) {

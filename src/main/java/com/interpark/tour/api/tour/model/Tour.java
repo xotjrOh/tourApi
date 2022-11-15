@@ -20,36 +20,36 @@ public class Tour {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "start_city")
+    @JoinColumn(name = "startCity")
     private City departures;
     @ManyToOne
-    @JoinColumn(name = "arrive_city")
+    @JoinColumn(name = "arriveCity")
     private City arrivals;
 
-    private LocalDateTime start_date;
-    private LocalDateTime end_date;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
-    private String reg_date_f;
+    private String regDate_f;
 
     @CreationTimestamp
-    private LocalDateTime reg_date;
+    private LocalDateTime regDate;
 
     @PrePersist
     public void createdAt(){
         LocalDateTime now = LocalDateTime.now();
         String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));
-        this.reg_date_f = formatedNow;
+        this.regDate_f = formatedNow;
     }
 
-    public Tour(City departures, City arrivals, LocalDateTime start_date, LocalDateTime end_date, User user) {
+    public Tour(City departures, City arrivals, LocalDateTime startDate, LocalDateTime endDate, User user) {
         this.departures = departures;
         this.arrivals = arrivals;
-        this.start_date = start_date;
-        this.end_date = end_date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.user = user;
     }
 }
