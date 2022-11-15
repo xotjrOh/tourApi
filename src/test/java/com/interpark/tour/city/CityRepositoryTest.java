@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,9 +34,11 @@ class CityRepositoryTest {
     @DisplayName("findByName")
     void findByName(){
         // when
-        Optional<City> city = cityRepository.findByName("서울");
+        String name = "서울";
+        Optional<City> cityOpt = cityRepository.findByName(name);
         // then
-        assertThat(city.get().getId()).isEqualTo(cityIns.getId());
+        City city = cityOpt.orElseThrow(() -> new NoSuchElementException(name + " (이)라는 도시가 없습니다"));
+        assertThat(city.getId()).isEqualTo(cityIns.getId());
     }
 
     @Test

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @RestController
 @Slf4j
@@ -25,31 +25,13 @@ public class CityController {
     private final CityRepository cityRepository;
 
     @GetMapping("/{cityId}")
-    public ResponseEntity<String> cityById(@PathVariable Long cityId){
+    public ResponseEntity<City> cityById(@PathVariable Long cityId){
 
-//        cityRepository.findById(cityId).orElseThrow();
-
-        Optional<City> city = cityRepository.findById(cityId);
-
-        City cityIns = city.get();
-        log.info("city = {}",cityIns);
-
-//        if (cityIns.){
-//            return ResponseEntity
-//                    .status(HttpStatus.OK)
-//                    .body(cityIns.toString());
-//        } else {
-//            String message = String.format("cityId %d에 해당하는 데이터가 없습니다", cityId);
-//            return ResponseEntity
-//                    .status(HttpStatus.BAD_REQUEST)
-//                    .body(message);
-//        }
+        City city = cityRepository.findById(cityId).orElseThrow(() -> new NoSuchElementException(cityId + "에 해당하는 도시가 없습니다"));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(cityIns.toString());
-
-
+                .body(city);
     }
 
 }
