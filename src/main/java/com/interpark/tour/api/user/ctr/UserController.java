@@ -21,7 +21,7 @@ public class UserController {
 
     /**
      * User 전체 목록 조회
-     * @return User 리스트
+     * @return 전체 User 리스트
      */
     @GetMapping
     public ResponseEntity<ResultVo> userAll(){

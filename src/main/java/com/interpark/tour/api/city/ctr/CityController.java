@@ -20,7 +20,7 @@ public class CityController {
 
     /**
      * City 전체 목록 조회
-     * @return City 리스트
+     * @return 전체 City 리스트
      */
     @GetMapping
     public ResponseEntity<ResultVo> cityAll(){
