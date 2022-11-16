@@ -55,7 +55,7 @@ public class TourServiceImpl implements TourService {
 
         City departuresCity = cityRepository.findByName(departuresName).orElseThrow(() -> new TourException(departuresName + "(이)라는 도시는 없습니다"));
         City arrivalsCity = cityRepository.findByName(arrivalsName).orElseThrow(() -> new TourException(arrivalsName + "(이)라는 도시는 없습니다"));
-        User user = userRepository.findById(userId).orElseThrow(() -> new TourException(userId + "에 해당하는 유저는 없습니다"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new TourException(userId + "에 해당하는 유저가 없습니다"));
 
         Tour tour = tourRepository.save(new Tour(departuresCity,arrivalsCity,startDate,endDate,user));
 
@@ -88,7 +88,7 @@ public class TourServiceImpl implements TourService {
         }
         Long userId = tourDTO.getUserId();
         if (userId != null){
-            User user = userRepository.findById(userId).orElseThrow(() -> new TourException(userId + "에 해당하는 유저는 없습니다"));
+            User user = userRepository.findById(userId).orElseThrow(() -> new TourException(userId + "에 해당하는 유저가 없습니다"));
             tour.setUser(user);
         }
 

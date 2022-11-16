@@ -1,6 +1,6 @@
 package com.interpark.tour.api.user.model;
 
-import com.interpark.tour.api.lookup.model.ViewedCity;
+import com.interpark.tour.api.lookup.model.Lookup;
 import com.interpark.tour.api.tour.model.Tour;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -34,7 +34,7 @@ public class User {
     private List<Tour> tours = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<ViewedCity> viewedCities = new ArrayList<>();
+    private List<Lookup> viewedCities = new ArrayList<>();
 
     @CreationTimestamp
     private LocalDateTime regDate;

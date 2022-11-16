@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ViewedCity {
+public class Lookup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,4 +28,9 @@ public class ViewedCity {
 
     @CreationTimestamp
     private LocalDateTime recentViewed;
+
+    public Lookup(User user, City city) {
+        this.user = user;
+        this.city = city;
+    }
 }
