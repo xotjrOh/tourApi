@@ -11,6 +11,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * author          : 오태석
+ * date            : 2022/11/16
+ * description     :
+ * ===========================================================
+ * DATE              AUTHOR                  NOTE
+ * -----------------------------------------------------------
+ * 2022/11/16        오태석               최초 생성
+ */
+
 @Slf4j
 @RestControllerAdvice
 public class ApiExceptionHandler {
