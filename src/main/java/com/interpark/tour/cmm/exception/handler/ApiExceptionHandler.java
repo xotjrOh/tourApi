@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * ===========================================================
  * DATE              AUTHOR                  NOTE
  * -----------------------------------------------------------
- * 2022/11/16        오태석               최초 생성
+ * 2022/11/16        오태석                 최초 생성
  */
 
 @Slf4j
