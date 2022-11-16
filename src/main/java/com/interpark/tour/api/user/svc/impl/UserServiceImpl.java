@@ -38,14 +38,13 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public User userCreate(UserDto userDto) {
 
-        if (userDto.getName()==null){
-            throw new UserException("name과 nickName 이라는 키 값을 사용하여 json 데이터를 넘겨주세요");
-        }
-        if (userDto.getNickName()==null){
-            throw new UserException("name과 nickName 이라는 키 값을 사용하여 json 데이터를 넘겨주세요");
+        String name = userDto.getName();
+        String nickName = userDto.getNickName();
+        if (name == null || nickName == null){
+            throw new UserException("name과 nickName이라는 키값을 사용하여 json 데이터를 넘겨주세요");
         }
 
-        User user = userRepository.save(new User(userDto.getName(), userDto.getNickName()));
+        User user = userRepository.save(new User(name, nickName));
 
         return user;
     }
@@ -74,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     static String nickNameCheck(Map<String,String> nickNameMap){
         if (nickNameMap.get("nickName")==null) {
-            throw new UserException("nickName 이라는 키 값을 사용하여 json 데이터를 넘겨주세요");
+            throw new UserException("nickName이라는 키값을 사용하여 json 데이터를 넘겨주세요");
         }
 
         return nickNameMap.get("nickName");

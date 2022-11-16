@@ -27,6 +27,7 @@ public class User {
     private String name;
 
     @NotNull
+    @Column(unique = true)
     private String nickName;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

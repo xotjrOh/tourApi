@@ -88,7 +88,7 @@ public class CityServiceImpl implements CityService {
 
     static String nameCheck(Map<String,String> nameMap){
         if (nameMap.get("name")==null) {
-            throw new CityException("name 이라는 키 값을 사용하여 json 데이터를 넘겨주세요");
+            throw new CityException("name이라는 키 값을 사용하여 json 데이터를 넘겨주세요");
         }
 
         return nameMap.get("name");

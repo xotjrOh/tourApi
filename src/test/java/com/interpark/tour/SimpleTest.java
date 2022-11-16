@@ -8,6 +8,10 @@ class SimpleTest {
     @Test
     @DisplayName("시간 비교")
     void findAll(){
+        String name = null;
+//        System.out.println(name || "hi");
+
+
         // when
 //        LocalDateTime date = LocalDateTime.now();
 //        Map<String,String> nameMap = new HashMap<String, String>();
