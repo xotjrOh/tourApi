@@ -1,8 +1,10 @@
 package com.interpark.tour.api.user.svc;
 
 import com.interpark.tour.api.user.model.User;
+import com.interpark.tour.api.user.model.UserDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -10,9 +12,9 @@ public interface UserService {
 
     User userById(Long userId);
 
-    User userCreate(String name, String nickName);
+    User userCreate(UserDto userDto);
 
-    User userNickNameUpdate(Long userId, String nickName);
+    User userNickNameUpdate(Long userId, Map<String,String> nickNameMap);
 
     boolean userDelete(Long userId);
 

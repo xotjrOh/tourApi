@@ -13,7 +13,7 @@ public interface CityService {
 
     City cityCreate(Map<String,String> nameMap);
 
-    City cityUpdate(Long cityId, String name);
+    City cityUpdate(Long cityId, Map<String,String> nameMap);
 
     boolean cityDelete(Long cityId);
 

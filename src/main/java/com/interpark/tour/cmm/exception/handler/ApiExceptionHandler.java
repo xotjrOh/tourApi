@@ -18,8 +18,6 @@ public class ApiExceptionHandler {
     @ExceptionHandler(CityException.class)
     public ResponseEntity<ResultVo> cityExceptionHandler(final RuntimeException e){
 
-        log.error("[cityExceptionHandler] : {}",e);
-
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ResultVo.builder()
@@ -30,8 +28,6 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(LookupException.class)
     public ResponseEntity<ResultVo> lookupExceptionHandler(final RuntimeException e){
-
-        log.error("[lookupExceptionHandler] : {}",e);
 
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -44,8 +40,6 @@ public class ApiExceptionHandler {
     @ExceptionHandler(TourException.class)
     public ResponseEntity<ResultVo> tourExceptionHandler(final RuntimeException e){
 
-        log.error("[tourExceptionHandler] : {}",e);
-
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ResultVo.builder()
@@ -56,8 +50,6 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ResultVo> userExceptionHandler(final RuntimeException e){
-
-        log.error("[userExceptionHandler] : {}",e);
 
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -70,6 +62,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ResultVo> unknownExceptionHandler(Exception e){
 
+        // methodNotSupported 가능성이 높다
         log.error("[unknownExceptionHandler] : {}",e);
 
         return ResponseEntity

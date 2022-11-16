@@ -23,7 +23,6 @@ public class City {
     private Long id;
 
     @NotNull
-    @Column(updatable=false)
     private String name;
 
     @OneToMany(mappedBy = "departures", fetch = FetchType.LAZY)

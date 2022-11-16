@@ -25,6 +25,8 @@ public class User {
     @NotNull
     @Column(updatable=false)
     private String name;
+
+    @NotNull
     private String nickName;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

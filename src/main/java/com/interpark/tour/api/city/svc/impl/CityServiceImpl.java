@@ -3,6 +3,7 @@ package com.interpark.tour.api.city.svc.impl;
 import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.city.repo.CityRepository;
 import com.interpark.tour.api.city.svc.CityService;
+import com.interpark.tour.cmm.exception.CityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +29,7 @@ public class CityServiceImpl implements CityService {
     @Transactional(readOnly = true)
     public City cityById(Long cityId) {
 
-        City city = cityRepository.findById(cityId).orElseThrow(() -> new NoSuchElementException(cityId + "에 해당하는 도시가 없습니다"));
+        City city = cityRepository.findById(cityId).orElseThrow(() -> new CityException(cityId + "에 해당하는 도시가 없습니다"));
 
         return city;
     }
@@ -38,16 +38,18 @@ public class CityServiceImpl implements CityService {
     @Transactional(rollbackFor = Exception.class)
     public City cityCreate(Map<String,String> nameMap) {
 
-        City city = cityRepository.save(new City(nameMap.get("name")));
+        String name = nameCheck(nameMap);
+        City city = cityRepository.save(new City(name));
 
         return city;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public City cityUpdate(Long cityId, String name) {
+    public City cityUpdate(Long cityId, Map<String,String> nameMap) {
 
-        City city = cityRepository.findById(cityId).orElseThrow(() -> new NoSuchElementException(cityId + "에 해당하는 도시가 없습니다"));
+        City city = cityRepository.findById(cityId).orElseThrow(() -> new CityException(cityId + "에 해당하는 도시가 없습니다"));
+        String name = nameCheck(nameMap);
         city.setName(name);
         City updatedCity = cityRepository.save(city);
 
@@ -58,7 +60,7 @@ public class CityServiceImpl implements CityService {
     @Transactional(rollbackFor = Exception.class)
     public boolean cityDelete(Long cityId) {
 
-        City city = cityRepository.findById(cityId).orElseThrow(() -> new NoSuchElementException(cityId + "에 해당하는 도시가 없습니다"));
+        City city = cityRepository.findById(cityId).orElseThrow(() -> new CityException(cityId + "에 해당하는 도시가 없습니다"));
         // 단, 해당 도시가 지정된 여행이 없을 경우만 삭제 가능
 
         cityRepository.delete(city);
@@ -84,4 +86,11 @@ public class CityServiceImpl implements CityService {
         return Collections.emptyList();
     }
 
+    static String nameCheck(Map<String,String> nameMap){
+        if (nameMap.get("name")==null) {
+            throw new CityException("name 이라는 키 값을 사용하여 json 데이터를 넘겨주세요");
+        }
+
+        return nameMap.get("name");
+    }
 }
