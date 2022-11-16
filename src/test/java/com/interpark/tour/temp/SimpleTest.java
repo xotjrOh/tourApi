@@ -1,4 +1,4 @@
-package com.interpark.tour;
+package com.interpark.tour.temp;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -13,7 +13,6 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
     List<Tour> findByUser(User user);
 
     Optional<Tour> findById(Long id);
-    Optional<Tour> findByName(String name);
 
 //    @Query(value = "SELECT * FROM tour WHERE userId = :userId", nativeQuery = true)
 //    List<City> findAllByTravelingCity(Long userId);

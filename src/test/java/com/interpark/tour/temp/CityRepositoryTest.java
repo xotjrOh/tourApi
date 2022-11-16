@@ -1,9 +1,8 @@
-package com.interpark.tour.city;
+package com.interpark.tour.temp;
 
 import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.city.repo.CityRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,7 +32,6 @@ class CityRepositoryTest {
     }
 
     @Test
-    @DisplayName("findByName")
     void findByName(){
         // when
         String name = "서울";
@@ -44,7 +42,6 @@ class CityRepositoryTest {
     }
 
     @Test
-    @DisplayName("findAll")
     void findAll(){
         // when
         List<City> cities = cityRepository.findAll();
@@ -55,7 +52,6 @@ class CityRepositoryTest {
 
 
     @Test
-    @DisplayName("findAllByRegDateIsAfter")
     void findAllByRegDateIsAfter(){
         List<City> cities = cityRepository.findAllByRegDateAfterOrderByRegDateDesc();
         //then
