@@ -25,6 +25,7 @@ public class User {
     @NotNull
     @Column(updatable=false)
     private String name;
+    private String nickName;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Tour> tours = new ArrayList<>();
@@ -35,7 +36,8 @@ public class User {
     @CreationTimestamp
     private LocalDateTime regDate;
 
-    public User(String name) {
+    public User(String name, String nickName) {
         this.name = name;
+        this.nickName = nickName;
     }
 }

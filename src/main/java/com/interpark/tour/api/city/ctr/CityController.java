@@ -53,7 +53,7 @@ public class CityController {
      * @return 생성된 City 정보
      */
     @PostMapping
-    public ResponseEntity<City> cityCreate(@RequestBody String name){
+    public ResponseEntity<City> cityCreate(String name){
 
         City city = cityService.cityCreate(name);
 
@@ -64,12 +64,12 @@ public class CityController {
 
     /**
      * City 수정
-     * @param cityId 변경을 원하는 cityId
+     * @param cityId 변경을 원하는 City 의 Id
      * @param name 변경될 city 이름
      * @return 변경된 City 정보
      */
     @PatchMapping("/{cityId}")
-    public ResponseEntity<City> cityUpdate(@PathVariable Long cityId, @RequestBody String name){
+    public ResponseEntity<City> cityUpdate(@PathVariable Long cityId, String name){
 
         City city = cityService.cityUpdate(cityId,name);
 

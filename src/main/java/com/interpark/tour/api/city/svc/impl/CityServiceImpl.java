@@ -82,4 +82,5 @@ public class CityServiceImpl implements CityService {
 
         return Collections.emptyList();
     }
+
 }
