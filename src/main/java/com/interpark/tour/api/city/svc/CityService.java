@@ -3,6 +3,7 @@ package com.interpark.tour.api.city.svc;
 import com.interpark.tour.api.city.model.City;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CityService {
 
@@ -10,7 +11,7 @@ public interface CityService {
 
     City cityById(Long cityId);
 
-    City cityCreate(String name);
+    City cityCreate(Map<String,String> nameMap);
 
     City cityUpdate(Long cityId, String name);
 

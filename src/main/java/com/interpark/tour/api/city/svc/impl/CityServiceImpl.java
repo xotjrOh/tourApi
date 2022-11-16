@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Service
@@ -35,9 +36,9 @@ public class CityServiceImpl implements CityService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public City cityCreate(String name) {
+    public City cityCreate(Map<String,String> nameMap) {
 
-        City city = cityRepository.save(new City(name));
+        City city = cityRepository.save(new City(nameMap.get("name")));
 
         return city;
     }

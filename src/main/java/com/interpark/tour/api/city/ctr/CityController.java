@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/cities")
@@ -49,13 +50,15 @@ public class CityController {
 
     /**
      * City 등록
-     * @param name City 이름
+     * @param nameMap City 이름 ( key = "name" ) ex) {name=도쿄}
      * @return 생성된 City 정보
      */
     @PostMapping
-    public ResponseEntity<City> cityCreate(String name){
+    public ResponseEntity<City> cityCreate(@RequestBody Map<String,String> nameMap){
 
-        City city = cityService.cityCreate(name);
+
+
+        City city = cityService.cityCreate(nameMap);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -69,7 +72,7 @@ public class CityController {
      * @return 변경된 City 정보
      */
     @PatchMapping("/{cityId}")
-    public ResponseEntity<City> cityUpdate(@PathVariable Long cityId, String name){
+    public ResponseEntity<City> cityUpdate(@PathVariable Long cityId,@RequestBody String name){
 
         City city = cityService.cityUpdate(cityId,name);
 
