@@ -17,4 +17,7 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
 
     @Query(value = "SELECT arriveCity FROM tour WHERE SYSDATE() between startDate and endDate and userId = :userId order by startDate", nativeQuery = true)
     List<Long> findAllByTravelingCity(Long userId);
+
+    @Query(value = "SELECT arriveCity FROM tour WHERE SYSDATE() < startDate and userId = :userId order by startDate", nativeQuery = true)
+    List<Long> findAllByPlanCity(Long userId);
 }

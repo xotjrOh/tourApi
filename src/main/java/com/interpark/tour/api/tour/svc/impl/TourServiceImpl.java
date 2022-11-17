@@ -130,4 +130,16 @@ public class TourServiceImpl implements TourService {
 
         return CityNames;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getPlanCities(Long userId){
+
+        List<String> CityNames = tourRepository.findAllByPlanCity(userId)
+                                                .stream().map(cityRepository::findById)
+                                                .map(opt->opt.get())
+                                                .map(city->city.getName())
+                                                .collect(Collectors.toList());
+        return CityNames;
+    }
 }

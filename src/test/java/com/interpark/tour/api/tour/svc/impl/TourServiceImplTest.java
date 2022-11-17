@@ -59,8 +59,8 @@ class TourServiceImplTest {
         tourRepository.save(new Tour(
                 cityRepository.findByName("서울").get(),
                 cityRepository.findByName("도쿄").get(),
-                localDateTime.minusDays(1),
-                localDateTime,
+                localDateTime.plusDays(1),
+                localDateTime.plusDays(4),
                 userRepository.findByName("이승현").get()
         ));
         tourRepository.save(new Tour(
@@ -151,6 +151,12 @@ class TourServiceImplTest {
     void getTravelingCities() {
         List<String> travelingCities = tourService.getTravelingCities(userRepository.findByName("오태석").get().getId());
         assertThat(travelingCities.size()).isEqualTo(2);
+    }
+
+    @Test
+    void getPlanCities() {
+        List<String> planCities = tourService.getPlanCities(userRepository.findByName("이승현").get().getId());
+        assertThat(planCities.size()).isEqualTo(1);
     }
 
 }

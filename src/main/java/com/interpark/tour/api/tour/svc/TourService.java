@@ -18,4 +18,6 @@ public interface TourService {
     boolean tourDelete(Long tourId);
 
     List<String> getTravelingCities(Long userId);
+
+    List<String> getPlanCities(Long userId);
 }
