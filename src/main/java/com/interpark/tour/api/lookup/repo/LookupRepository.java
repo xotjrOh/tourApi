@@ -1,5 +1,6 @@
 package com.interpark.tour.api.lookup.repo;
 
+import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.lookup.model.Lookup;
 import com.interpark.tour.api.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,8 @@ public interface LookupRepository extends JpaRepository<Lookup,Long> {
     List<Lookup> findByUser(User user);
 
     Optional<Lookup> findById(Long id);
+
+    Optional<Lookup> findByUserAndCity(User user, City city);
 
 //    @Query(value = "SELECT * FROM tour WHERE userId = :userId", nativeQuery = true)
 //    List<City> findAllByTravelingCity(Long userId);

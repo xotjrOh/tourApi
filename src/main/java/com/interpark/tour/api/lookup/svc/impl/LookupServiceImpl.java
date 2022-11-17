@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -52,9 +54,14 @@ public class LookupServiceImpl implements LookupService {
         User user = userRepository.findById(userId).orElseThrow(() -> new LookupException(userId + "에 해당하는 유저가 없습니다"));
         City city = cityRepository.findById(cityId).orElseThrow(() -> new LookupException(cityId + "에 해당하는 도시가 없습니다"));
 
-        Lookup lookup = lookupRepository.save(new Lookup(user, city));
-
-        return lookup;
+        Optional<Lookup> lookupCheck = lookupRepository.findByUserAndCity(user, city);
+        if (lookupCheck.isPresent()) {
+            Lookup lookup = lookupCheck.get();
+            lookup.setRecentViewed(LocalDateTime.now());
+            return lookup;
+        } else {
+            return lookupRepository.save(new Lookup(user, city));
+        }
     }
 
     @Override
