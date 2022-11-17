@@ -17,4 +17,5 @@ public interface TourService {
 
     boolean tourDelete(Long tourId);
 
+    List<String> getTravelingCities(Long userId);
 }

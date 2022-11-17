@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -115,5 +116,18 @@ public class TourServiceImpl implements TourService {
         tourRepository.delete(tour);
 
         return true;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getTravelingCities(Long userId){
+
+        List<String> CityNames = tourRepository.findAllByTravelingCity(userId)
+                                                .stream().map(cityRepository::findById)
+                                                .map(opt->opt.get())
+                                                .map(city->city.getName())
+                                                .collect(Collectors.toList());
+
+        return CityNames;
     }
 }

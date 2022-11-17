@@ -7,7 +7,6 @@ import com.interpark.tour.api.tour.repo.TourRepository;
 import com.interpark.tour.api.tour.svc.TourService;
 import com.interpark.tour.api.user.repo.UserRepository;
 import com.interpark.tour.cmm.exception.TourException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,7 +53,7 @@ class TourServiceImplTest {
                 cityRepository.findByName("서울").get(),
                 cityRepository.findByName("제주도").get(),
                 localDateTime.minusDays(5),
-                localDateTime.minusDays(2),
+                localDateTime.plusDays(2),
                 userRepository.findByName("오태석").get()
         ));
         tourRepository.save(new Tour(
@@ -64,6 +63,13 @@ class TourServiceImplTest {
                 localDateTime,
                 userRepository.findByName("이승현").get()
         ));
+        tourRepository.save(new Tour(
+                cityRepository.findByName("도쿄").get(),
+                cityRepository.findByName("서울").get(),
+                localDateTime.minusDays(1),
+                localDateTime.plusDays(5),
+                userRepository.findByName("오태석").get()
+        ));
     }
 
     @Test
@@ -71,7 +77,7 @@ class TourServiceImplTest {
         // when
         List<Tour> tours = tourService.tourAll();
         // then
-        assertThat(tours.size()).isEqualTo(3);
+        assertThat(tours.size()).isEqualTo(4);
     }
 
     @Test
@@ -79,14 +85,14 @@ class TourServiceImplTest {
         // when
         Tour tour = tourService.tourById(tourIns.getId());
         // then
-        Assertions.assertThat(tour.getDepartures().getName()).isEqualTo("서울");
+        assertThat(tour.getDepartures().getName()).isEqualTo("서울");
     }
 
     @Test
     @DisplayName("존재하지않는 id로 조회할 경우")
     void tourByWrongId() throws Exception {
         // when
-        Long wrongId = tourIns.getId()+3l;
+        Long wrongId = tourIns.getId()+4l;
         // then
         assertThatThrownBy(() -> tourService.tourById(wrongId))
                 .isInstanceOf(TourException.class)
@@ -99,7 +105,7 @@ class TourServiceImplTest {
         TourDTO tourDTO = new TourDTO("도쿄","서울",localDateTime,localDateTime.plusDays(2),userRepository.findByName("오태석").get().getId());
         Tour tour = tourService.tourCreate(tourDTO);
         // then
-        Assertions.assertThat(tour.getDepartures().getName()).isEqualTo("도쿄");
+        assertThat(tour.getDepartures().getName()).isEqualTo("도쿄");
     }
 
     @Test
@@ -119,7 +125,7 @@ class TourServiceImplTest {
         // when
         TourDTO tourDTO = new TourDTO("제주도",null,null,null, null);
         // then (null 값으로 덮어씌워지지 않는지 확인)
-        Assertions.assertThat(tourService.tourUpdate(tourIns.getId(), tourDTO).getArrivals().getName()).isEqualTo("도쿄");
+        assertThat(tourService.tourUpdate(tourIns.getId(), tourDTO).getArrivals().getName()).isEqualTo("도쿄");
     }
 
     @Test
@@ -138,7 +144,13 @@ class TourServiceImplTest {
         // when
         boolean res = tourService.tourDelete(tourIns.getId());
         // then
-        Assertions.assertThat(res).isEqualTo(true);
+        assertThat(res).isEqualTo(true);
+    }
+
+    @Test
+    void getTravelingCities() {
+        List<String> travelingCities = tourService.getTravelingCities(userRepository.findByName("오태석").get().getId());
+        assertThat(travelingCities.size()).isEqualTo(2);
     }
 
 }
