@@ -3,7 +3,9 @@ package com.interpark.tour.api.city.svc.impl;
 import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.city.repo.CityRepository;
 import com.interpark.tour.api.city.svc.CityService;
+import com.interpark.tour.cmm.exception.CityException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("prod")
 @SpringBootTest
@@ -52,6 +55,17 @@ class CityServiceImplTest {
     }
 
     @Test
+    @DisplayName("존재하지않는 id로 조회할 경우")
+    void cityByWrongId() throws Exception {
+        // when
+        Long wrongId = cityIns.getId()+3l;
+        // then
+        assertThatThrownBy(() -> cityService.cityById(wrongId))
+                .isInstanceOf(CityException.class)
+                .hasMessage(wrongId+"에 해당하는 도시가 없습니다");
+    }
+
+    @Test
     void cityCreate() {
         // when
         Map<String,String> nameMap = new HashMap<String, String>();
@@ -70,6 +84,18 @@ class CityServiceImplTest {
         // then
         assertThat(city.getId()).isEqualTo(cityIns.getId());
         assertThat(city.getName()).isEqualTo("파리");
+    }
+
+    @Test
+    @DisplayName("update시 key값이 틀릴경우")
+    void cityUpdateKeyError() throws Exception {
+        // when
+        Map<String,String> nameMap = new HashMap<String, String>();
+        nameMap.put("Name","파리");
+        // then
+        assertThatThrownBy(() -> cityService.cityUpdate(cityIns.getId(), nameMap))
+                .isInstanceOf(CityException.class)
+                .hasMessage("name이라는 키값을 사용하여 json 데이터를 넘겨주세요");
     }
 
     @Test

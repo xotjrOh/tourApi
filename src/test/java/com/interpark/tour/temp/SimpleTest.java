@@ -9,7 +9,8 @@ class SimpleTest {
     @DisplayName("시간 비교")
     void findAll(){
         String name = null;
-//        System.out.println(name || "hi");
+
+        System.out.println(1l-1l);
 
 
         // when
