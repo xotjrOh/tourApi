@@ -76,6 +76,18 @@ class CityServiceImplTest {
     }
 
     @Test
+    @DisplayName("중복된 이름의 도시를 생성할 경우")
+    void cityCreateDuplicateName() throws Exception {
+        // when
+        Map<String,String> nameMap = new HashMap<String, String>();
+        nameMap.put("name","서울");
+        // then
+        assertThatThrownBy(() -> cityService.cityCreate(nameMap))
+                .isInstanceOf(CityException.class)
+                .hasMessage("이미 존재하는 도시명입니다");
+    }
+
+    @Test
     void cityUpdate() {
         // when
         Map<String,String> nameMap = new HashMap<String, String>();

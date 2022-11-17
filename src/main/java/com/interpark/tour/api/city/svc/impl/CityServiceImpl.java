@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +39,16 @@ public class CityServiceImpl implements CityService {
     @Transactional(rollbackFor = Exception.class)
     public City cityCreate(Map<String,String> nameMap) {
 
+        // key값이 name인지 체크
         String name = nameCheck(nameMap);
+        // value가 중복인지 체크
+        List<String> cityNames = cityAll().stream()
+                                        .map(City::getName)
+                                        .collect(Collectors.toList());
+        if (cityNames.contains(name)){
+            throw new CityException("이미 존재하는 도시명입니다");
+        }
+
         City city = cityRepository.save(new City(name));
 
         return city;

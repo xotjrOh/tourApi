@@ -76,6 +76,17 @@ class UserServiceImplTest {
     }
 
     @Test
+    @DisplayName("중복된 별명으로 생성할 경우")
+    void userCreateDuplicateNickName() throws Exception {
+        // when
+        UserDto userDto = new UserDto("방준성","깜둥쟁이");
+        // then
+        assertThatThrownBy(() -> userService.userCreate(userDto))
+                .isInstanceOf(UserException.class)
+                .hasMessage("이미 존재하는 별명입니다");
+    }
+
+    @Test
     void userNickNameUpdate() {
         // when
         Map<String,String> nickNameMap = new HashMap<String, String>();
@@ -84,6 +95,18 @@ class UserServiceImplTest {
         // then
         assertThat(user.getId()).isEqualTo(userIns.getId()); // 원객체와 수정된 객체 id가 같음을 확인
         assertThat(user.getNickName()).isEqualTo("노는게제일좋아");
+    }
+
+    @Test
+    @DisplayName("중복된 별명으로 변경할 경우")
+    void userNickNameUpdateDuplicate() throws Exception {
+        // when
+        Map<String,String> nickNameMap = new HashMap<String, String>();
+        nickNameMap.put("nickName","깜둥쟁이");
+        // then
+        assertThatThrownBy(() -> userService.userNickNameUpdate(userIns.getId(), nickNameMap))
+                .isInstanceOf(UserException.class)
+                .hasMessage("이미 존재하는 별명입니다");
     }
 
     @Test
