@@ -46,7 +46,7 @@ class TourServiceImplTest {
         tourIns = tourRepository.save(new Tour(
                 cityRepository.findByName("서울").get(),
                 cityRepository.findByName("도쿄").get(),
-                localDateTime.minusDays(1),
+                localDateTime.minusDays(2),
                 localDateTime,
                 userRepository.findByName("안민우").get()
                 ));
@@ -103,13 +103,34 @@ class TourServiceImplTest {
     }
 
     @Test
+    @DisplayName("과거로 여행")
+    void tourCreateToPast() {
+        // when
+        TourDTO tourDTO = new TourDTO("도쿄","서울",localDateTime,localDateTime.minusDays(2),userRepository.findByName("오태석").get().getId());
+        // then
+        assertThatThrownBy(() -> tourService.tourCreate(tourDTO))
+                .isInstanceOf(TourException.class)
+                .hasMessage("여행 종료일은 미래만 허용");
+    }
+
+    @Test
     @DisplayName("update시 null값이 있을경우")
     void tourUpdate() {
         // when
         TourDTO tourDTO = new TourDTO("제주도",null,null,null, null);
-        // then
-        // null 값으로 덮어씌워지지 않는지 확인
+        // then (null 값으로 덮어씌워지지 않는지 확인)
         Assertions.assertThat(tourService.tourUpdate(tourIns.getId(), tourDTO).getArrivals().getName()).isEqualTo("도쿄");
+    }
+
+    @Test
+    @DisplayName("update시 과거로 여행")
+    void tourUpdateToPast() {
+        // when
+        TourDTO tourDTO = new TourDTO("제주도",null,localDateTime,localDateTime.minusDays(1), null);
+        // then
+        assertThatThrownBy(() -> tourService.tourUpdate(tourIns.getId(), tourDTO))
+                .isInstanceOf(TourException.class)
+                .hasMessage("여행 종료일은 미래만 허용");
     }
 
     @Test

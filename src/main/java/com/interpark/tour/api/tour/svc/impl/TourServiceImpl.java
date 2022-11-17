@@ -57,6 +57,11 @@ public class TourServiceImpl implements TourService {
         City arrivalsCity = cityRepository.findByName(arrivalsName).orElseThrow(() -> new TourException(arrivalsName + "(이)라는 도시는 없습니다"));
         User user = userRepository.findById(userId).orElseThrow(() -> new TourException(userId + "에 해당하는 유저가 없습니다"));
 
+        // 여행 종료일은 미래만 허용
+        if (endDate.isBefore(startDate)){
+            throw new TourException("여행 종료일은 미래만 허용");
+        }
+
         Tour tour = tourRepository.save(new Tour(departuresCity,arrivalsCity,startDate,endDate,user));
 
         return tour;
@@ -68,6 +73,7 @@ public class TourServiceImpl implements TourService {
 
         Tour tour = tourRepository.findById(tourId).orElseThrow(() -> new TourException(tourId + "에 해당하는 여행이 없습니다"));
 
+        // null 값을 제외하고 수정
         String departuresName = tourDTO.getDeparturesName();
         if (departuresName != null){
             City departuresCity = cityRepository.findByName(departuresName).orElseThrow(() -> new TourException(departuresName + "(이)라는 도시는 없습니다"));
@@ -84,12 +90,17 @@ public class TourServiceImpl implements TourService {
         }
         LocalDateTime endDate = tourDTO.getEndDate();
         if (endDate != null){
-            tour.setStartDate(endDate);
+            tour.setEndDate(endDate);
         }
         Long userId = tourDTO.getUserId();
         if (userId != null){
             User user = userRepository.findById(userId).orElseThrow(() -> new TourException(userId + "에 해당하는 유저가 없습니다"));
             tour.setUser(user);
+        }
+
+        // 여행 종료일은 미래만 허용
+        if (tour.getEndDate().isBefore(tour.getStartDate())){
+            throw new TourException("여행 종료일은 미래만 허용");
         }
 
         return tour;

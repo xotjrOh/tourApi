@@ -3,6 +3,8 @@ package com.interpark.tour.temp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
 class SimpleTest {
 
     @Test
@@ -10,7 +12,15 @@ class SimpleTest {
     void findAll(){
         String name = null;
 
-        System.out.println(1l-1l);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime past = localDateTime.minusMinutes(5);
+        LocalDateTime future = localDateTime.plusMinutes(5);
+
+        System.out.println(localDateTime);
+
+        if (past.isBefore(past)){
+            System.out.println("success");
+        }
 
 
         // when
