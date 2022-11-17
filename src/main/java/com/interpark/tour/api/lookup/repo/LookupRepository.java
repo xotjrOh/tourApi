@@ -17,6 +17,4 @@ public interface LookupRepository extends JpaRepository<Lookup,Long> {
 
     Optional<Lookup> findByUserAndCity(User user, City city);
 
-//    @Query(value = "SELECT * FROM tour WHERE userId = :userId", nativeQuery = true)
-//    List<City> findAllByTravelingCity(Long userId);
 }

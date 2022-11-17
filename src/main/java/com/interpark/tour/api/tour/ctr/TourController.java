@@ -74,7 +74,7 @@ public class TourController {
      * @return 변경된 Tour 정보
      */
     @PatchMapping("/{tourId}")
-    public ResponseEntity<ResultVo> tourUpdate(@PathVariable Long tourId,@RequestBody TourDTO tourDTO){
+    public ResponseEntity<ResultVo> tourUpdate(@PathVariable Long tourId, @RequestBody TourDTO tourDTO){
 
         return ResponseEntity
                 .status(HttpStatus.OK)
