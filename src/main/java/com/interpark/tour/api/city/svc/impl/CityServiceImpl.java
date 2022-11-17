@@ -80,6 +80,15 @@ public class CityServiceImpl implements CityService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<String> cityRegistered() {
+
+        List<String> cityNames = cityRepository.findAllByRegDateAfterOrderByRegDateDesc();
+
+        return cityNames;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<City> cityList() {
 
         // 관련 로직

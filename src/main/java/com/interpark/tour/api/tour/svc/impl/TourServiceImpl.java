@@ -122,24 +122,24 @@ public class TourServiceImpl implements TourService {
     @Transactional(readOnly = true)
     public List<String> getTravelingCities(Long userId){
 
-        List<String> CityNames = tourRepository.findAllByTravelingCity(userId)
+        List<String> cityNames = tourRepository.findAllByTravelingCity(userId)
                                                 .stream().map(cityRepository::findById)
                                                 .map(opt->opt.get())
                                                 .map(city->city.getName())
                                                 .collect(Collectors.toList());
 
-        return CityNames;
+        return cityNames;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<String> getPlanCities(Long userId){
 
-        List<String> CityNames = tourRepository.findAllByPlanCity(userId)
+        List<String> cityNames = tourRepository.findAllByPlanCity(userId)
                                                 .stream().map(cityRepository::findById)
                                                 .map(opt->opt.get())
                                                 .map(city->city.getName())
                                                 .collect(Collectors.toList());
-        return CityNames;
+        return cityNames;
     }
 }

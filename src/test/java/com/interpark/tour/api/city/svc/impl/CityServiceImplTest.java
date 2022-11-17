@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ class CityServiceImplTest {
 
     City cityIns;
 
+    // 연관 관계가 생긴 이후에는 초기화에서 오류가 발생한다
     @BeforeEach
     void cleanup(){
         cityRepository.deleteAll();
@@ -116,6 +118,15 @@ class CityServiceImplTest {
         boolean res = cityService.cityDelete(cityIns.getId());
         // then
         assertThat(res).isEqualTo(true);
+    }
+
+    @Test
+    void cityRegistered() {
+        // when
+        List<String> cityNames = cityService.cityRegistered();
+        List<String> expectNames = Arrays.asList("제주도", "도쿄", "서울");
+        // then
+        assertThat(cityNames).isEqualTo(expectNames);
     }
 
 //    @Test

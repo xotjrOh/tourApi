@@ -14,6 +14,6 @@ public interface CityRepository extends JpaRepository<City,Long> {
     Optional<City> findById(Long id);
     Optional<City> findByName(String name);
 
-    @Query(value = "SELECT * FROM city WHERE datediff(regDate, SYSDATE()) > -2 order by regDate desc", nativeQuery = true)
-    List<City> findAllByRegDateAfterOrderByRegDateDesc();
+    @Query(value = "SELECT name FROM city WHERE datediff(regDate, SYSDATE()) > -2 order by regDate desc", nativeQuery = true)
+    List<String> findAllByRegDateAfterOrderByRegDateDesc();
 }

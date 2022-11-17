@@ -17,6 +17,8 @@ public interface CityService {
 
     boolean cityDelete(Long cityId);
 
+    List<String> cityRegistered();
+
     List<City> cityList();
 
 }

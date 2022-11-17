@@ -149,13 +149,17 @@ class TourServiceImplTest {
 
     @Test
     void getTravelingCities() {
+        // when
         List<String> travelingCities = tourService.getTravelingCities(userRepository.findByName("오태석").get().getId());
+        // then
         assertThat(travelingCities.size()).isEqualTo(2);
     }
 
     @Test
     void getPlanCities() {
+        // when
         List<String> planCities = tourService.getPlanCities(userRepository.findByName("이승현").get().getId());
+        // then
         assertThat(planCities.size()).isEqualTo(1);
     }
 
