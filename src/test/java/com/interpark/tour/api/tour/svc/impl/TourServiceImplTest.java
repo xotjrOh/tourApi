@@ -36,7 +36,7 @@ class TourServiceImplTest {
     LocalDateTime localDateTime;
     Tour tourIns;
 
-
+    // 다른 테이블 값들이 존재해야한다.
     @BeforeEach
     void cleanup(){
         tourRepository.deleteAll();

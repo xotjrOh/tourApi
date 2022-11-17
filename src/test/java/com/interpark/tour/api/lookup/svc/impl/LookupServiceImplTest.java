@@ -7,7 +7,6 @@ import com.interpark.tour.api.lookup.repo.LookupRepository;
 import com.interpark.tour.api.lookup.svc.LookupService;
 import com.interpark.tour.api.user.repo.UserRepository;
 import com.interpark.tour.cmm.exception.LookupException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -35,6 +35,7 @@ class LookupServiceImplTest {
 
     Lookup lookupIns;
 
+    // 안민우, 오태석에 해당하는 User / 도쿄, 서울에 해당하는 City 가 존재해야한다.
     @BeforeEach
     void cleanup(){
         lookupRepository.deleteAll();
@@ -57,7 +58,7 @@ class LookupServiceImplTest {
         // when
         Lookup lookup = lookupService.lookupById(lookupIns.getId());
         // then
-        Assertions.assertThat(lookup.getCity().getName()).isEqualTo("서울");
+        assertThat(lookup.getCity().getName()).isEqualTo("서울");
     }
 
     @Test
@@ -78,7 +79,7 @@ class LookupServiceImplTest {
         LookupDTO lookupDTO = new LookupDTO(userRepository.findByName("오태석").get().getId(),cityRepository.findByName("제주도").get().getId());
         Lookup lookup = lookupService.lookupCreate(lookupDTO);
         // then
-        Assertions.assertThat(lookup.getCity().getName()).isEqualTo("제주도");
+        assertThat(lookup.getCity().getName()).isEqualTo("제주도");
     }
 
     @Test
@@ -88,7 +89,7 @@ class LookupServiceImplTest {
         LookupDTO lookupDTO = new LookupDTO(userRepository.findByName("오태석").get().getId(),cityRepository.findByName("서울").get().getId());
         Lookup lookup = lookupService.lookupCreate(lookupDTO);
         // then
-        Assertions.assertThat(lookupIns.getRecentViewed()).isNotEqualTo(lookup.getRecentViewed());
+        assertThat(lookupIns.getRecentViewed()).isNotEqualTo(lookup.getRecentViewed());
     }
 
     @Test
@@ -96,7 +97,7 @@ class LookupServiceImplTest {
         // when
         LookupDTO lookupDTO = new LookupDTO(userRepository.findByName("안민우").get().getId(),null);
         // then (null 값으로 덮어씌워지지 않는지 확인)
-        Assertions.assertThat(lookupService.lookupUpdate(lookupIns.getId(), lookupDTO).getCity().getName()).isEqualTo("서울");
+        assertThat(lookupService.lookupUpdate(lookupIns.getId(), lookupDTO).getCity().getName()).isEqualTo("서울");
     }
 
     @Test
@@ -104,6 +105,16 @@ class LookupServiceImplTest {
         // when
         boolean res = lookupService.lookupDelete(lookupIns.getId());
         // then
-        Assertions.assertThat(res).isEqualTo(true);
+        assertThat(res).isEqualTo(true);
     }
+
+    @Test
+    void viewedCityInWeek() {
+        // when
+        List<String> viewedCities = lookupService.viewedCityInWeek(userRepository.findByName("오태석").get().getId());
+        List<String> expectNames = Arrays.asList("도쿄","서울");
+        // then
+        assertThat(viewedCities).isEqualTo(expectNames);
+    }
+
 }

@@ -17,4 +17,5 @@ public interface LookupService {
 
     boolean lookupDelete(Long lookupId);
 
+    List<String> viewedCityInWeek(Long userId);
 }

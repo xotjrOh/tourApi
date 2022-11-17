@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -94,4 +95,17 @@ public class LookupServiceImpl implements LookupService {
 
         return true;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> viewedCityInWeek(Long userId) {
+
+        List<String> cityNames = lookupRepository.findAllInWeek(userId)
+                                                .stream().map(cityRepository::findById)
+                                                .map(opt -> opt.get())
+                                                .map(city -> city.getName())
+                                                .collect(Collectors.toList());
+        return cityNames;
+    }
+
 }
