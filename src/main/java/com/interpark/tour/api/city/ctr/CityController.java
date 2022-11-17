@@ -105,18 +105,18 @@ public class CityController {
 
     /**
      * 특정 City 10개 조회
-     * @param
+     * @param userId 중요 "userId" (cityId 아닙니다)
      * @return 관심있을만한 City 10개 조회 (더 많을 수 있음)
      */
-    @GetMapping("/list")
-    public ResponseEntity<ResultVo> cityList(){
+    @GetMapping("/list/{userId}")
+    public ResponseEntity<ResultVo> cityList(@PathVariable Long userId){
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResultVo.builder()
                         .resultCode(String.valueOf(HttpStatus.OK.value()))
                         .resultMessage("관심있을만한 city 리스트를 추출하였습니다")
-                        .resultData(cityService.cityList())
+                        .resultData(cityService.cityListImportant(userId))
                         .build());
     }
 

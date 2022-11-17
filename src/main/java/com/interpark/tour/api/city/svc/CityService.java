@@ -19,6 +19,6 @@ public interface CityService {
 
     List<String> cityRegistered();
 
-    List<City> cityList();
+    List<String> cityListImportant(Long userId);
 
 }

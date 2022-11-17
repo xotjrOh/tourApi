@@ -1,7 +1,6 @@
 package com.interpark.tour.api.tour.repo;
 
 import com.interpark.tour.api.tour.model.Tour;
-import com.interpark.tour.api.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -11,7 +10,6 @@ import java.util.Optional;
 public interface TourRepository extends JpaRepository<Tour,Long> {
 
     List<Tour> findAll();
-    List<Tour> findByUser(User user);
 
     Optional<Tour> findById(Long id);
 

@@ -3,6 +3,8 @@ package com.interpark.tour.api.city.svc.impl;
 import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.city.repo.CityRepository;
 import com.interpark.tour.api.city.svc.CityService;
+import com.interpark.tour.api.lookup.svc.LookupService;
+import com.interpark.tour.api.tour.svc.TourService;
 import com.interpark.tour.cmm.exception.CityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 public class CityServiceImpl implements CityService {
 
     private final CityRepository cityRepository;
+    private final LookupService lookupService;
+    private final TourService tourService;
 
     @Override
     @Transactional(readOnly = true)
@@ -89,20 +93,43 @@ public class CityServiceImpl implements CityService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<City> cityList() {
+    public List<String> cityListImportant(Long userId) {
 
-        // 관련 로직
-//        사용자별 도시 목록 조회 API
-//        기본적으로 중복 없이 상위 10개 도시만 노출 (Pagination 없음)
-//        단, 여행 중인 도시는 중복이 허용되며 노출 개수와 무관
-//        도시 노출 순서 (위에서 아래 순서대로 노출)
-//        여행 중인 도시 : 여행 시작일이 빠른 것부터
-//        여행이 예정된 도시 : 여행 시작일이 가까운 것부터
-//        하루 이내에 등록된 도시 : 가장 최근에 등록한 것부터
-//        최근 일주일 이내에 한 번 이상 조회된 도시 : 가장 최근에 조회한 것부터
-//        위의 조건에 해당하지 않는 모든 도시 : 무작위
+        List<String> exCities = tourService.getTravelingCities(userId);
 
-        return Collections.emptyList();
+        List<String> citiesImportant = tourService.getPlanCities(userId);
+        if (citiesImportant.size()>9){
+            exCities.addAll(citiesImportant.subList(0, 10));
+            return exCities;
+        }
+
+        List<String> regCities = cityRegistered();
+        citiesImportant.addAll(regCities);
+        if (citiesImportant.size()>9){
+            exCities.addAll(citiesImportant.subList(0, 10));
+            return exCities;
+        }
+
+        List<String> viewedCities = lookupService.viewedCityInWeek(userId);
+        citiesImportant.addAll(viewedCities);
+        if (citiesImportant.size()>9){
+            exCities.addAll(citiesImportant.subList(0, 10));
+            return exCities;
+        }
+
+        List<String> allCities = cityAll().stream()
+                                        .map(city -> city.getName())
+                                        .collect(Collectors.toList());
+
+        for (String cityName : citiesImportant) {
+            allCities.remove(cityName);
+        }
+
+        Collections.shuffle(allCities);
+        citiesImportant.addAll(allCities);
+        exCities.addAll(citiesImportant.subList(0, 10));
+
+        return exCities;
     }
 
     static String nameCheck(Map<String,String> nameMap){

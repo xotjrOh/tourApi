@@ -3,6 +3,7 @@ package com.interpark.tour.api.city.svc.impl;
 import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.city.repo.CityRepository;
 import com.interpark.tour.api.city.svc.CityService;
+import com.interpark.tour.api.user.repo.UserRepository;
 import com.interpark.tour.cmm.exception.CityException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,6 +28,8 @@ class CityServiceImplTest {
     CityService cityService;
     @Autowired
     CityRepository cityRepository;
+    @Autowired
+    UserRepository userRepository;
 
     City cityIns;
 
@@ -129,11 +132,11 @@ class CityServiceImplTest {
         assertThat(cityNames).isEqualTo(expectNames);
     }
 
-//    @Test
-//    void cityList() {
-//        // when
-//        List<City> cities = cityService.cityAll();
-//        // then
-//        assertThat(cities.size()).isEqualTo(3);
-//    }
+    @Test
+    void cityListImportant() {
+        // when
+        List<String> cityNames = cityService.cityListImportant(userRepository.findByName("오태석").get().getId());
+        // then
+        assertThat(cityNames.size()).isGreaterThan(9);
+    }
 }
