@@ -22,17 +22,17 @@ public class Tour {
     private Long id;
 
     // 요구조건 애매, startCity의 매핑관계를 제거해야할 수 있음
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "startCity")
     private City departures;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "arriveCity")
     private City arrivals;
 
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
 

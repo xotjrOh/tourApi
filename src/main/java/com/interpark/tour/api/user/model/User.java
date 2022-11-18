@@ -1,5 +1,6 @@
 package com.interpark.tour.api.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.interpark.tour.api.lookup.model.Lookup;
 import com.interpark.tour.api.tour.model.Tour;
 import com.sun.istack.NotNull;
@@ -31,9 +32,11 @@ public class User {
     @Column(unique = true)
     private String nickName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Tour> tours = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Lookup> viewedCities = new ArrayList<>();
 
