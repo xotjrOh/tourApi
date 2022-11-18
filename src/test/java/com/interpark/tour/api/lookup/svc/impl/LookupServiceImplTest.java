@@ -1,10 +1,12 @@
 package com.interpark.tour.api.lookup.svc.impl;
 
+import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.city.repo.CityRepository;
 import com.interpark.tour.api.lookup.model.Lookup;
 import com.interpark.tour.api.lookup.model.LookupDTO;
 import com.interpark.tour.api.lookup.repo.LookupRepository;
 import com.interpark.tour.api.lookup.svc.LookupService;
+import com.interpark.tour.api.user.model.User;
 import com.interpark.tour.api.user.repo.UserRepository;
 import com.interpark.tour.cmm.exception.LookupException;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@ActiveProfiles("prod") // viewedCityInWeek 때문
 @SpringBootTest
 class LookupServiceImplTest {
 
@@ -35,9 +39,23 @@ class LookupServiceImplTest {
 
     // 안민우, 오태석에 해당하는 User / 도쿄, 서울에 해당하는 City 가 존재해야한다.
     @BeforeEach
-    void cleanup(){
+    void given(){
+        // cleanup
         lookupRepository.deleteAll();
-        // given
+        userRepository.deleteAll();
+        cityRepository.deleteAll();
+
+        // given user
+        userRepository.save(new User("오태석", "예삐공주"));
+        userRepository.save(new User("안민우", "생명은 소중한거야"));
+        userRepository.save(new User("이승현","깜둥쟁이"));
+
+        // given city
+        cityRepository.save(new City("서울"));
+        cityRepository.save(new City("도쿄"));
+        cityRepository.save(new City("제주도"));
+
+        // given lookup
         lookupIns = lookupRepository.save(new Lookup(userRepository.findByName("오태석").get(),cityRepository.findByName("서울").get()));
         lookupRepository.save(new Lookup(userRepository.findByName("오태석").get(),cityRepository.findByName("도쿄").get()));
         lookupRepository.save(new Lookup(userRepository.findByName("안민우").get(),cityRepository.findByName("서울").get()));

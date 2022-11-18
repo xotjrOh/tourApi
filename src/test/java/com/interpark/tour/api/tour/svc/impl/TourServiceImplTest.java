@@ -1,10 +1,12 @@
 package com.interpark.tour.api.tour.svc.impl;
 
+import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.city.repo.CityRepository;
 import com.interpark.tour.api.tour.model.Tour;
 import com.interpark.tour.api.tour.model.TourDTO;
 import com.interpark.tour.api.tour.repo.TourRepository;
 import com.interpark.tour.api.tour.svc.TourService;
+import com.interpark.tour.api.user.model.User;
 import com.interpark.tour.api.user.repo.UserRepository;
 import com.interpark.tour.cmm.exception.TourException;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@ActiveProfiles("prod") // getTravelingCities, getPlanCities 때문
 @SpringBootTest
 class TourServiceImplTest {
 
@@ -34,11 +38,24 @@ class TourServiceImplTest {
     LocalDateTime localDateTime;
     Tour tourIns;
 
-    // 다른 테이블 값들이 존재해야한다.
     @BeforeEach
-    void cleanup(){
+    void given(){
+        // cleanup
         tourRepository.deleteAll();
-        // given
+        userRepository.deleteAll();
+        cityRepository.deleteAll();
+
+        // given user
+        userRepository.save(new User("오태석", "예삐공주"));
+        userRepository.save(new User("안민우", "생명은 소중한거야"));
+        userRepository.save(new User("이승현","깜둥쟁이"));
+
+        // given city
+        cityRepository.save(new City("서울"));
+        cityRepository.save(new City("도쿄"));
+        cityRepository.save(new City("제주도"));
+
+        // given tour
         localDateTime = LocalDateTime.now();
         tourIns = tourRepository.save(new Tour(
                 cityRepository.findByName("서울").get(),

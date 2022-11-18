@@ -30,7 +30,8 @@ class UserServiceImplTest {
 
     // 연관 관계가 생긴 이후에는 초기화에서 오류가 발생한다
     @BeforeEach
-    void cleanup(){
+    void given(){
+        // cleanup
         userRepository.deleteAll();
         // given
         userIns = userRepository.save(new User("오태석", "예삐공주"));

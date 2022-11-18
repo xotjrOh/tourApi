@@ -6,10 +6,12 @@ import com.interpark.tour.api.city.svc.CityService;
 import com.interpark.tour.api.user.repo.UserRepository;
 import com.interpark.tour.cmm.exception.CityException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@ActiveProfiles("prod") // cityRegistered, cityListImportant 때문
 @SpringBootTest
 class CityServiceImplTest {
 
@@ -31,9 +34,10 @@ class CityServiceImplTest {
 
     City cityIns;
 
-    // 연관 관계가 생긴 이후에는 초기화에서 오류가 발생한다
+
     @BeforeEach
-    void cleanup(){
+    void given(){
+        // cleanup
         cityRepository.deleteAll();
         // given
         cityIns = cityRepository.save(new City("서울"));
@@ -131,7 +135,19 @@ class CityServiceImplTest {
     }
 
     @Test
+    @Disabled
     void cityListImportant() {
+        // given, 연관관계 추가 필요
+        cityRepository.save(new City("도시1"));
+        cityRepository.save(new City("도시2"));
+        cityRepository.save(new City("도시3"));
+        cityRepository.save(new City("도시4"));
+        cityRepository.save(new City("도시5"));
+        cityRepository.save(new City("도시6"));
+        cityRepository.save(new City("도시7"));
+        cityRepository.save(new City("도시8"));
+        cityRepository.save(new City("도시9"));
+        cityRepository.save(new City("도시10"));
         // when
         List<String> cityNames = cityService.cityListImportant(userRepository.findByName("오태석").get().getId());
         // then
