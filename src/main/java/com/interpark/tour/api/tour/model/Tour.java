@@ -21,6 +21,7 @@ public class Tour {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 요구조건 애매, startCity의 매핑관계를 제거해야할 수 있음
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "startCity")
     private City departures;
