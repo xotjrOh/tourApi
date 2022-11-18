@@ -3,6 +3,7 @@ package com.interpark.tour.api.city.service.impl;
 import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.city.repository.CityRepository;
 import com.interpark.tour.api.city.service.CityService;
+import com.interpark.tour.api.lookup.repository.LookupRepository;
 import com.interpark.tour.api.tour.model.Tour;
 import com.interpark.tour.api.tour.repository.TourRepository;
 import com.interpark.tour.api.user.model.User;
@@ -31,10 +32,12 @@ class CityServiceImplTest {
     @Autowired
     CityService cityService;
     @Autowired
-    CityRepository cityRepository;
-    @Autowired
     UserRepository userRepository;
+    @Autowired
+    CityRepository cityRepository;
 
+    @Autowired
+    LookupRepository lookupRepository;
     @Autowired
     TourRepository tourRepository;
 
@@ -44,7 +47,11 @@ class CityServiceImplTest {
     @BeforeEach
     void given(){
         // cleanup
+        lookupRepository.deleteAll();
+        tourRepository.deleteAll();
+        userRepository.deleteAll();
         cityRepository.deleteAll();
+
         // given
         cityIns = cityRepository.save(new City("서울"));
         cityRepository.save(new City("도쿄"));
@@ -146,9 +153,6 @@ class CityServiceImplTest {
         assertThatThrownBy(() -> cityService.cityDelete(cityIns.getId()))
                 .isInstanceOf(CityException.class)
                 .hasMessage("tour에 startCity가 매핑되어 있어 삭제가 불가능합니다");
-
-        tourRepository.deleteAll();
-        userRepository.deleteAll();
     }
 
     @Test
@@ -162,10 +166,7 @@ class CityServiceImplTest {
 
     @Test
     void cityListImportant() {
-        // given, 연관관계 추가 필요
-        userRepository.deleteAll();
-        tourRepository.deleteAll();
-
+        // given
         userRepository.save(new User("오태석", "예삐공주"));
         userRepository.save(new User("안민우", "생명은 소중한거야"));
         userRepository.save(new User("이승현","깜둥쟁이"));
@@ -217,8 +218,6 @@ class CityServiceImplTest {
         List<String> cityNames = cityService.cityListImportant(userRepository.findByName("오태석").get().getId());
         // then
         assertThat(cityNames).isEqualTo(expectNames);
-
-        tourRepository.deleteAll();
-        userRepository.deleteAll();
     }
+
 }

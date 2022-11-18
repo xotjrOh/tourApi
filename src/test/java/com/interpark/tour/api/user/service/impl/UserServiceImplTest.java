@@ -1,5 +1,8 @@
 package com.interpark.tour.api.user.service.impl;
 
+import com.interpark.tour.api.city.repository.CityRepository;
+import com.interpark.tour.api.lookup.repository.LookupRepository;
+import com.interpark.tour.api.tour.repository.TourRepository;
 import com.interpark.tour.api.user.model.User;
 import com.interpark.tour.api.user.model.UserDto;
 import com.interpark.tour.api.user.repository.UserRepository;
@@ -26,13 +29,23 @@ class UserServiceImplTest {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    LookupRepository lookupRepository;
+    @Autowired
+    TourRepository tourRepository;
+    @Autowired
+    CityRepository cityRepository;
+
     User userIns;
 
     // 연관 관계가 생긴 이후에는 초기화에서 오류가 발생한다
     @BeforeEach
     void given(){
         // cleanup
+        lookupRepository.deleteAll();
+        tourRepository.deleteAll();
         userRepository.deleteAll();
+        cityRepository.deleteAll();
         // given
         userIns = userRepository.save(new User("오태석", "예삐공주"));
         userRepository.save(new User("안민우", "생명은 소중한거야"));

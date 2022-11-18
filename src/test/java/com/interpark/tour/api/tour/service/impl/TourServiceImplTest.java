@@ -2,6 +2,7 @@ package com.interpark.tour.api.tour.service.impl;
 
 import com.interpark.tour.api.city.model.City;
 import com.interpark.tour.api.city.repository.CityRepository;
+import com.interpark.tour.api.lookup.repository.LookupRepository;
 import com.interpark.tour.api.tour.model.Tour;
 import com.interpark.tour.api.tour.model.TourDTO;
 import com.interpark.tour.api.tour.repository.TourRepository;
@@ -34,6 +35,8 @@ class TourServiceImplTest {
     CityRepository cityRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    LookupRepository lookupRepository;
 
     LocalDateTime localDateTime;
     Tour tourIns;
@@ -41,6 +44,7 @@ class TourServiceImplTest {
     @BeforeEach
     void given(){
         // cleanup
+        lookupRepository.deleteAll();
         tourRepository.deleteAll();
         userRepository.deleteAll();
         cityRepository.deleteAll();

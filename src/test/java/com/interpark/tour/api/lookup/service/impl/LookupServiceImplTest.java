@@ -6,6 +6,7 @@ import com.interpark.tour.api.lookup.model.Lookup;
 import com.interpark.tour.api.lookup.model.LookupDTO;
 import com.interpark.tour.api.lookup.repository.LookupRepository;
 import com.interpark.tour.api.lookup.service.LookupService;
+import com.interpark.tour.api.tour.repository.TourRepository;
 import com.interpark.tour.api.user.model.User;
 import com.interpark.tour.api.user.repository.UserRepository;
 import com.interpark.tour.common.exception.LookupException;
@@ -34,6 +35,8 @@ class LookupServiceImplTest {
     UserRepository userRepository;
     @Autowired
     CityRepository cityRepository;
+    @Autowired
+    TourRepository tourRepository;
 
     Lookup lookupIns;
 
@@ -42,6 +45,7 @@ class LookupServiceImplTest {
     void given(){
         // cleanup
         lookupRepository.deleteAll();
+        tourRepository.deleteAll();
         userRepository.deleteAll();
         cityRepository.deleteAll();
 
